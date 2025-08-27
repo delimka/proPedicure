@@ -7,6 +7,7 @@ import PublicPhotoModal from "@/components/PublicPhotoModal";
 import Skeleton from "@/components/Skeleton";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import type { QueryFunctionContext } from "@tanstack/react-query";
 
 interface Photo {
   id: string;
@@ -15,7 +16,7 @@ interface Photo {
   uploaded_by?: string;
 }
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 10;
 
 async function fetchPhotos(pageParam = 0): Promise<Photo[]> {
   const start = pageParam * PAGE_SIZE;
@@ -38,10 +39,12 @@ async function fetchPhotos(pageParam = 0): Promise<Photo[]> {
 const PublicGallery: React.FC = () => {
   const { t } = useTranslation();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery<Photo[], Error>({
       queryKey: ["gallery"],
-      queryFn: async ({ pageParam = 0 }) => fetchPhotos(pageParam),
+      queryFn: async ({ pageParam }: QueryFunctionContext) => {
+        return fetchPhotos(typeof pageParam === "number" ? pageParam : 0);
+      },
       initialPageParam: 0,
       getNextPageParam: (lastPage, allPages) => {
         if (lastPage.length < PAGE_SIZE) return undefined;

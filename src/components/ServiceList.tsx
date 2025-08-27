@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
 import MultipleSelector, { Option } from "@/components/ui/MultipleSelector";
 import { useQuery } from "@apollo/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { GET_SERVICES } from "@/graphql/servicesQueries";
+import { GET_SERVICES } from "@/graphql/queries/servicesQueries";
 
 interface ServiceNode {
   id: number;

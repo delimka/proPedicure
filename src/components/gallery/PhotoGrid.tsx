@@ -2,6 +2,7 @@
 import React from "react";
 import PhotoItem from "@/components/gallery/PhotoItem";
 import { motion } from "framer-motion";
+import { User } from "@supabase/supabase-js";
 
 interface Photo {
   id: string;
@@ -11,7 +12,7 @@ interface Photo {
 
 interface PhotoGridProps {
   photos: Photo[];
-  user: any;
+  user: User;
   onDelete: () => void;
   onSelectPhoto: (photo: Photo) => void;
   accessToken: string | null;

@@ -49,14 +49,15 @@ const GalleryHeroSection = () => {
           {t("gallery-description")}
         </motion.p>
 
-        <motion.button
+        <motion.a
           initial={{ opacity: 0, scale: 0.8 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="mt-6 px-5 py-2.5 sm:px-6 sm:py-3 xl:px-8 xl:py-4 bg-green-bg hover:bg-green-700 text-white font-bold rounded-lg"
+          href="/gallery"
+          className="mt-6 inline-block px-6 py-3 bg-green-bg hover:bg-green-700 text-white font-bold rounded-lg mx-auto lg:mx-0 lg:mr-auto"
         >
           {t("watch")}
-        </motion.button>
+        </motion.a>
       </motion.div>
     </section>
   );

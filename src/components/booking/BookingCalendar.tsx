@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
-import { useDeleteBooking } from "@/lib/bookingService";
+import { useEffect, useRef } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { Booking } from "@/types";
 import ServiceList from "@/components/ServiceList";
 import { useTranslation } from "react-i18next";
+import { useHandleDeleteBooking } from "@/hooks/useHandleDeleteBooking.ts";
 
 interface Props {
   selectedDate: string;
@@ -29,7 +30,13 @@ export default function BookingCalendar({
   onServicesChange,
 }: Props) {
   const { t } = useTranslation();
-  const handleDeleteBooking = useDeleteBooking();
+
+  // const handleDelete = useHandleDeleteBooking(() => {
+  //   handleRefresh();
+  //   if (selectedTime === timeRef.current) {
+  //     setSelectedTime("");
+  //   }
+  // });
 
   async function handleDelete(bookingId: number, time: string) {
     const success = await handleDeleteBooking(bookingId);
@@ -110,7 +117,7 @@ export default function BookingCalendar({
                       <Button
                         key={time}
                         variant="destructive"
-                        onClick={() => handleDelete(booking.id, time)}
+                        onClick={() => handleDelete(Number(booking.id), time)}
                       >
                         {time} <FaRegTrashAlt color="red" />
                       </Button>

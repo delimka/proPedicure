@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { FETCH_BOOKINGS_SERVICES } from "@/graphql/bookingQueries";
+import { FETCH_BOOKINGS_SERVICES } from "@/graphql/queries/bookingQueries";
 import useDebounce from "@/helpers/use-debounce";
 
 interface UseBookingsArgs {

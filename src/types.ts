@@ -18,3 +18,12 @@ export type Service = {
   duration_minutes: number;
   price: number;
 };
+
+export interface ValidateBookingFormArgs {
+  name: string;
+  email: string;
+  selectedTime: string;
+  user: User | null;
+  bookings: Booking[];
+  t: (key: string) => string;
+}

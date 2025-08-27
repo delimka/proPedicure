@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { supabase } from "@/services/supabaseClient";
 import Modal from "@/components/Modal";
 import { useTranslation } from "react-i18next";
+import { User } from "@supabase/supabase-js";
 
 interface Photo {
   id: string;
@@ -13,8 +14,10 @@ interface Photo {
 
 interface PhotoItemProps {
   photo: Photo;
-  user: { id: string; app_metadata?: { role?: string } } | null;
+  user: User;
   onDelete: () => void;
+  onSelectPhoto: (photo: Photo) => void;
+  accessToken: string | null;
 }
 
 const PhotoItem: React.FC<PhotoItemProps> = ({ photo, user, onDelete }) => {

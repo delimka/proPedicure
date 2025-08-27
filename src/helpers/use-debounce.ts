@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-function useDebounce(value, delay = 500) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+function useDebounce<T>(value: T, delay: number = 500): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -18,9 +18,7 @@ function useDebounce(value, delay = 500) {
 
 export default useDebounce;
 
-// scroll
-
-export const scrollToSection = (id) => {
+export const scrollToSection = (id: string): void => {
   const element = document.getElementById(id);
   if (element) {
     element.scrollIntoView({ behavior: "smooth" });

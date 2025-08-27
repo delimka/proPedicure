@@ -114,7 +114,6 @@ export default function NavMenu() {
                   </NavigationMenuLink>
                 </li>
                 <ListItem
-                  as="button"
                   onClick={() => scrollToSection("about")}
                   title={t("footer-medical-pedicure")}
                 >
@@ -124,7 +123,6 @@ export default function NavMenu() {
                   {t("admin-gallery-description")}
                 </ListItem>
                 <ListItem
-                  as="button"
                   onClick={() => scrollToSection("services")}
                   title={t("footer-booking")}
                 >
@@ -135,7 +133,6 @@ export default function NavMenu() {
                 </ListItem>
 
                 <ListItem
-                  as="button"
                   onClick={() => scrollToSection("pricelist")}
                   title={t("price-list-title")}
                 >

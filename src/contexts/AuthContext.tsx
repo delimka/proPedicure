@@ -76,13 +76,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("[Auth] Event:", event);
-      handleAuthChange(event, session);
+      handleAuthChange(session);
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
-  async function handleAuthChange(event: string, session: Session | null) {
+  async function handleAuthChange(session: Session | null) {
     if (session?.user) {
       setUser(session.user);
       setAccessToken(session.access_token || null);

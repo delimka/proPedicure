@@ -10,7 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
-import { ChevronsUpDownIcon } from "lucide-react";
 
 export function ModeToggle() {
   const [mounted, setMounted] = useState(false);

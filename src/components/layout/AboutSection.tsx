@@ -4,8 +4,6 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useTranslation } from "react-i18next";
 import img1 from "@/assets/pedicur-1.jpg";
-import img2 from "@/assets/pedicur-2.jpeg";
-import img3 from "@/assets/pedicur-3.jpeg";
 
 const AboutSection = () => {
   const { t } = useTranslation();
@@ -32,28 +30,6 @@ const AboutSection = () => {
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="w-full h-auto rounded-xl shadow-lg"
-        />
-
-        <motion.img
-          src={img2}
-          alt="Top Right"
-          initial={{ opacity: 0, x: 50, y: -50 }}
-          animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
-          transition={{ delay: 0.5, duration: 1 }}
-          className="hidden md:block absolute top-[-20px] right-[-15px] md:right-[-10%] 
-                     md:top-[-15%] w-[140px] md:w-[180px] lg:w-[200px] xl:w-[220px] 2xl:w-[240px] 
-                     rounded-xl shadow-md"
-        />
-
-        <motion.img
-          src={img3}
-          alt="Bottom Left"
-          initial={{ opacity: 0, x: -50, y: 50 }}
-          animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
-          transition={{ delay: 0.7, duration: 1 }}
-          className="hidden md:block absolute bottom-[-15%] left-[-5%] md:left-[-10%] 
-                     w-[160px] md:w-[200px] lg:w-[220px] xl:w-[240px] 2xl:w-[260px] 
-                     rounded-xl shadow-md"
         />
       </motion.div>
 

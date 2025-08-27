@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { CREATE_BOOKING } from "@/graphql/bookingMutations";
+import { CREATE_BOOKING } from "@/graphql/mutations/bookingMutations";
 import { useFetchBookings } from "@/lib/bookingService";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -49,13 +49,13 @@ export default function BookingForm({
         setName("");
         setEmail("");
         setComment("");
-        setSuccessMsg("{t('booking-success')}");
+        setSuccessMsg(t("booking-success"));
         onBookingSuccess();
         setTimeout(() => setSuccessMsg(""), 3000);
       },
       onError: (error) => {
         console.error("Booking error:", error);
-        setErrorMsg(error.message || "{t('booking-failure')}");
+        setErrorMsg(error.message || t("booking-failure"));
       },
     }
   );
@@ -64,23 +64,23 @@ export default function BookingForm({
     setErrorMsg("");
 
     if (!name.trim() || !email.trim() || !user || !accessToken) {
-      setErrorMsg("{t('error-fill-fields')}");
+      setErrorMsg(t("error-fill-fields"));
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setErrorMsg("{t('invalid-email')}");
+      setErrorMsg(t("invalid-email"));
       return;
     }
 
     if (!selectedTime) {
-      setErrorMsg("{t('please-choose-time')}");
+      setErrorMsg(t("please-choose-time"));
       return;
     }
 
     if (userBookingsCount >= 2) {
-      setErrorMsg("{t('booking-limit')}");
+      setErrorMsg(t("booking-limit"));
       return;
     }
 

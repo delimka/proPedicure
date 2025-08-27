@@ -1,3 +1,4 @@
+// BookingPage.tsx
 import { useState } from "react";
 import { motion } from "framer-motion";
 import BookingCalendar from "@/components/booking/BookingCalendar";
@@ -23,10 +24,6 @@ export default function BookingPage() {
     refetch,
   } = useFetchBookings();
 
-  if (authLoading) {
-    return <div className="text-center mt-10 text-gray-500">Loading...</div>;
-  }
-
   const sanitizedBookings: Booking[] = bookings.map((b) => ({
     ...b,
     name: b.name || "Unknown",
@@ -37,26 +34,30 @@ export default function BookingPage() {
     setSelectedTime("");
   };
 
-  const handleBookingSuccess = () => {
-    // ...
-  };
+  const handleBookingSuccess = () => {};
+
+  const showOverlay = !authLoading && !user;
+  const isLoadingUI = authLoading || bookingsLoading;
 
   return (
-    <motion.div className="flex flex-col items-center justify-center min-h-screen py-10 px-5 bg-gray-100">
-      <motion.div className="relative w-full max-w-3xl bg-white shadow-lg rounded-lg p-6 flex flex-col gap-6">
+    <motion.div
+      className="flex flex-col items-center py-10 px-5 bg-gray-100"
+      initial={false}
+    >
+      <motion.div
+        className="relative w-full max-w-3xl bg-white shadow-lg rounded-lg p-6 flex flex-col gap-6"
+        style={{ minHeight: 640 }}
+        initial={false}
+      >
         <h1 className="font-bold text-2xl mb-2">{t("booking-form")}</h1>
 
-        {!authLoading && !user && (
-          <motion.div
-            className="absolute inset-0 flex items-start pt-10 justify-center 
-                       bg-black bg-opacity-50 backdrop-blur-sm z-10 rounded-lg"
-          >
+        {showOverlay && (
+          <motion.div className="absolute inset-0 flex items-start pt-10 justify-center bg-black/50 backdrop-blur-sm z-10 rounded-lg">
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="bg-white p-8 rounded-xl shadow-2xl text-center 
-                         border border-gray-200 max-w-md w-full mx-4"
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="bg-white p-8 rounded-xl shadow-2xl text-center border border-gray-200 max-w-md w-full mx-4"
             >
               <p className="text-red-600 font-semibold mb-4 text-xl flex items-center justify-center gap-2">
                 <span className="text-2xl">⚠️</span>
@@ -75,29 +76,39 @@ export default function BookingPage() {
           </motion.div>
         )}
 
-        <BookingList
-          bookings={sanitizedBookings}
-          loading={bookingsLoading}
-          error={error ? error.message : null}
-          handleRefresh={handleRefresh}
-        />
+        {isLoadingUI ? (
+          <>
+            <div className="h-28 rounded-md bg-gray-200 animate-pulse" />
+            <div className="h-80 rounded-md bg-gray-200 animate-pulse" />
+            <div className="h-40 rounded-md bg-gray-200 animate-pulse" />
+          </>
+        ) : (
+          <>
+            <BookingList
+              bookings={sanitizedBookings}
+              loading={false}
+              error={error ? error.message : null}
+              handleRefresh={handleRefresh}
+            />
 
-        <BookingCalendar
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          selectedTime={selectedTime}
-          setSelectedTime={setSelectedTime}
-          bookings={bookings}
-          handleRefresh={handleRefresh}
-          onServicesChange={setSelectedServiceIds}
-        />
+            <BookingCalendar
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              selectedTime={selectedTime}
+              setSelectedTime={setSelectedTime}
+              bookings={bookings}
+              handleRefresh={handleRefresh}
+              onServicesChange={setSelectedServiceIds}
+            />
 
-        <BookingForm
-          selectedDate={selectedDate}
-          selectedTime={selectedTime}
-          onBookingSuccess={handleBookingSuccess}
-          selectedServiceIds={selectedServiceIds}
-        />
+            <BookingForm
+              selectedDate={selectedDate}
+              selectedTime={selectedTime}
+              onBookingSuccess={handleBookingSuccess}
+              selectedServiceIds={selectedServiceIds}
+            />
+          </>
+        )}
       </motion.div>
     </motion.div>
   );

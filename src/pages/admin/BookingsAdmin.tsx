@@ -5,11 +5,24 @@ import { Loader2 } from "lucide-react";
 import { DataTable } from "./data-table";
 import { useBookingsWithPagination } from "@/hooks/useBookingWithPagination";
 import { useMutation } from "@apollo/client";
-import { DELETE_BOOKINGS } from "@/graphql/bookingMutations";
+import { DELETE_BOOKINGS } from "@/graphql/mutations/bookingMutations";
 import { useAuth } from "@/contexts/AuthContext";
 import { useBookingColumns } from "@/components/BookingTableColumns";
 import { useTranslation } from "react-i18next";
-
+interface ProfileNode {
+  id: string;
+  phone: string;
+}
+interface Service {
+  id: number;
+  name_ru: string;
+  name_en: string;
+  name_et: string;
+  created_at: string;
+  updated_at: string;
+  duration_minutes: number;
+  price: number;
+}
 const BookingsAdmin: React.FC = () => {
   const columns = useBookingColumns();
 
@@ -55,8 +68,8 @@ const BookingsAdmin: React.FC = () => {
   );
 
   const serviceMap = useMemo(() => {
-    const map: Record<string, any> = {};
-    services.forEach((s) => {
+    const map: Record<number, Service> = {};
+    services.forEach((s: Service) => {
       map[s.id] = s;
     });
     return map;
@@ -65,9 +78,11 @@ const BookingsAdmin: React.FC = () => {
   const profilesMap = useMemo(() => {
     const map: Record<string, string> = {};
 
-    data?.profilesCollection?.edges.forEach(({ node }) => {
-      map[node.id.trim().toLowerCase()] = node.phone;
-    });
+    data?.profilesCollection?.edges.forEach(
+      ({ node }: { node: ProfileNode }) => {
+        map[node.id.trim().toLowerCase()] = node.phone;
+      }
+    );
 
     return map;
   }, [data?.profilesCollection]);
@@ -77,7 +92,8 @@ const BookingsAdmin: React.FC = () => {
       ...b,
       phone: profilesMap[b.user_id.trim().toLowerCase()] || "",
       serviceNames: (b.service_ids || [])
-        .map((id: string) => serviceMap[id]?.name_ru || id)
+        .map((id: string) => serviceMap[Number(id)]?.name_ru || id)
+
         .join(", "),
     }));
   }, [bookings, serviceMap, profilesMap]);

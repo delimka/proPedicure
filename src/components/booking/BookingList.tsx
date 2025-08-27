@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { useDeleteBooking } from "@/lib/bookingService";
+// import { useDeleteBooking } from "@/lib/bookingService";
 import { Loader2 } from "lucide-react";
 import { Booking } from "@/types";
 import { useTranslation } from "react-i18next";
+import { useHandleDeleteBooking } from "@/hooks/useHandleDeleteBooking";
 
 interface BookingListProps {
   bookings: Booking[];
@@ -22,7 +23,7 @@ export default function BookingList({
   error,
   handleRefresh,
 }: BookingListProps) {
-  const handleDeleteBooking = useDeleteBooking();
+  const handleDelete = useHandleDeleteBooking(handleRefresh);
   const [showLoader, setShowLoader] = useState(true);
   const { t } = useTranslation();
 
@@ -36,11 +37,6 @@ export default function BookingList({
       return () => clearTimeout(timer);
     }
   }, [loading]);
-
-  async function handleDelete(bookingId: number) {
-    const success = await handleDeleteBooking(bookingId);
-    if (success) handleRefresh();
-  }
 
   if (showLoader) {
     return (
@@ -80,7 +76,7 @@ export default function BookingList({
                 <Button
                   size="sm"
                   variant="destructive"
-                  onClick={() => handleDelete(booking.id)}
+                  onClick={() => handleDelete(Number(booking.id))}
                   className="mt-auto bg-red-500"
                 >
                   <FaRegTrashAlt color="white" size={25} />

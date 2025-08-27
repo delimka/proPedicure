@@ -1,6 +1,9 @@
 import { useQuery, useMutation } from "@apollo/client";
-import { FETCH_USER_BOOKINGS } from "@/graphql/bookingQueries";
-import { DELETE_BOOKING, DELETE_BOOKINGS } from "@/graphql/bookingMutations";
+import { FETCH_USER_BOOKINGS } from "@/graphql/queries/bookingQueries";
+import {
+  DELETE_BOOKING,
+  DELETE_BOOKINGS,
+} from "@/graphql/mutations/bookingMutations";
 import { useAuth } from "@/contexts/AuthContext";
 import { Booking } from "@/types";
 

@@ -48,6 +48,7 @@ export const DELETE_BOOKINGS = gql`
     }
   }
 `;
+
 export const DELETE_BOOKING = gql`
   mutation DeleteBooking($id: Int!) {
     deleteFrombookingsCollection(filter: { id: { eq: $id } }) {
